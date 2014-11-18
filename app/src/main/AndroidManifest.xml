@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="de.jsauerwein.fitcircle.TrainingScheduleProvider"
+            android:authorities="de.jsauerwein.fitcircle.schedule"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>
