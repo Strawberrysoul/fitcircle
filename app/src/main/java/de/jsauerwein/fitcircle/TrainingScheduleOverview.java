@@ -1,11 +1,11 @@
 package de.jsauerwein.fitcircle;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.*;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,6 +16,12 @@ import java.util.List;
  *
  */
 public class TrainingScheduleOverview extends Fragment {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,5 +48,22 @@ public class TrainingScheduleOverview extends Fragment {
         exercises.add(new Exercise.Builder().type(45).name("Exercise 45").addTool(2).addTool(3).build());
 
         exerciseList.setAdapter(new ExerciseAdapter(this.getActivity(), exercises));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.workout_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.add:
+                Intent add = new Intent(AppContract.BROADCAST_ACTION_WORKOUT);
+                add.putExtra(InteractionModel.TAG_CURRENT_FRAGMENT, InteractionModel.WORKOUT_ADDING);
+                LocalBroadcastManager.getInstance(this.getActivity()).sendBroadcast(add);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

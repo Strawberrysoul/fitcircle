@@ -23,6 +23,12 @@
             android:enabled="true"
             android:exported="false" >
         </provider>
+
+        <receiver
+            android:name="de.jsauerwein.fitcircle.WorkoutTrigger"
+            android:enabled="false"
+            android:exported="false" >
+        </receiver>
     </application>
 
 </manifest>

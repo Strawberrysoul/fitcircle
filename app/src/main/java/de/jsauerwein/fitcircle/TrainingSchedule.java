@@ -1,51 +1,41 @@
 package de.jsauerwein.fitcircle;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-
 
 
 public class TrainingSchedule extends Activity {
+    private InteractionModel interactionModel;
+    private int currentFragment = InteractionModel.WORKOUT_OVERVIEW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_trainingschedule_activity);
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new TrainingScheduleOverview())
-                    .commit();
+        if(savedInstanceState != null) {
+            this.currentFragment = savedInstanceState.getInt(InteractionModel.TAG_CURRENT_FRAGMENT);
         }
+        setContentView(R.layout.main_trainingschedule_activity);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(InteractionModel.TAG_CURRENT_FRAGMENT, this.interactionModel.getCurrentFragmentId());
+    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.no_menu, menu);
-        return true;
+    protected void onResume() {
+        super.onResume();
+        Bundle arguments = new Bundle();
+        arguments.putInt(InteractionModel.TAG_CURRENT_FRAGMENT, this.currentFragment);
+        this.interactionModel = new InteractionModel();
+        this.interactionModel.setArguments(arguments);
+        this.getFragmentManager().beginTransaction().add(this.interactionModel, AppContract.TS_INTERACTION_MODEL).commit();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }
