@@ -1,15 +1,19 @@
 package de.jsauerwein.fitcircle;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class ExerciseCursorAdapter extends ArrayAdapter<Exercise> {
+public class ExerciseCursorAdapter extends CursorAdapter {
 
     private final int[] exerciseIcons= new int[] {
             R.drawable.pose1,
@@ -59,36 +63,85 @@ public class ExerciseCursorAdapter extends ArrayAdapter<Exercise> {
             R.drawable.pose45
     };
 
-    private final List<Exercise> exercises;
+    ViewHolder viewHolder;
 
-    public ExerciseCursorAdapter(Context context, List<Exercise> exercises) {
-        super(context, R.layout.main_trainingschedule_overview_exercise, exercises);
-        this.exercises = exercises;
+    public ExerciseCursorAdapter(Context context, Cursor c) {
+        super(context,c,0);
+
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if(convertView == null) {
-            convertView = View.inflate(this.getContext(), R.layout.main_trainingschedule_overview_exercise, null);
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        View convertView = View.inflate(context, R.layout.main_trainingschedule_overview_exercise, null);
+
             viewHolder = new ViewHolder();
             viewHolder.poseView = (ImageView) convertView.findViewById(R.id.main_trainingschedule_workout_type);
             viewHolder.nameView = (TextView) convertView.findViewById(R.id.main_trainingschedule_workout_name);
+            viewHolder.difficultyView = (TextView) convertView.findViewById(R.id.main_trainingschedule_difficulty);
+            viewHolder.toolViewBall = (ImageView) convertView.findViewById(R.id.main_trainingschedule_tool_ball);
+            viewHolder.toolViewChair = (ImageView) convertView.findViewById(R.id.main_trainingschedule_tool_chair);
+            viewHolder.toolViewExpander = (ImageView) convertView.findViewById(R.id.main_trainingschedule_tool_expander);
+            viewHolder.toolViewMat = (ImageView) convertView.findViewById(R.id.main_trainingschedule_tool_mat);
 
             convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
 
-        Exercise exercise = this.exercises.get(position);
-        viewHolder.poseView.setImageResource(this.exerciseIcons[exercise.getWorkoutType() - 1]);
-        viewHolder.nameView.setText(exercise.getName());
 
         return convertView;
+    }
+
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+    viewHolder = (ViewHolder) view.getTag();
+        int id = cursor.getInt(cursor.getColumnIndex("_id"));
+        int pose = cursor.getInt(cursor.getColumnIndex("type"));
+        String name = cursor.getString(cursor.getColumnIndex("name"));
+        int difficulty = cursor.getInt(cursor.getColumnIndex("difficulty"));
+
+        // first, no tools should be visible
+        viewHolder.toolViewBall.setVisibility(View.GONE);
+        viewHolder.toolViewChair.setVisibility(View.GONE);
+        viewHolder.toolViewExpander.setVisibility(View.GONE);
+        viewHolder.toolViewMat.setVisibility(View.GONE);
+
+        // set all Views:
+        viewHolder.poseView.setImageResource(this.exerciseIcons[pose- 1]);
+        viewHolder.nameView.setText(name);
+        viewHolder.difficultyView.setText(""+difficulty);
+        Log.i(null,"hallo");
+        ContentResolver cr = context.getContentResolver();
+        Cursor toolCursor = cr.query(Uri.parse("content://de.jsauerwein.fitcircle.schedule/exercises/" + cursor.getString(cursor.getColumnIndex("_id")) + "/tools"), null, null, null, null);
+
+        for (int i = 0; i < toolCursor.getCount(); i++) {
+
+            toolCursor.moveToNext();
+            switch(toolCursor.getInt(toolCursor.getColumnIndex("tool")))
+            {
+                case 1:
+                    viewHolder.toolViewMat.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    viewHolder.toolViewExpander.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    viewHolder.toolViewBall.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    viewHolder.toolViewChair.setVisibility(View.VISIBLE);
+                    break;
+                default: break;
+            }
+        }
+
     }
 
     private static class ViewHolder {
         private ImageView poseView;
         public TextView nameView;
+        public TextView difficultyView;
+        public ImageView toolViewBall;
+        public ImageView toolViewChair;
+        public ImageView toolViewExpander;
+        public ImageView toolViewMat;
+
     }
 }
