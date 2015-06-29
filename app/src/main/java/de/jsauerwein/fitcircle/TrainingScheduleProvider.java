@@ -28,8 +28,7 @@ public class TrainingScheduleProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        String[] columnNames;
-       MatrixCursor mcursor;
+
        switch(TrainingScheduleContract.URI_MATCHER.match(uri)) {
            case TrainingScheduleContract.EXERCISE_LIST:
                cursor = db.getReadableDatabase().rawQuery("SELECT * FROM exercises", null);
