@@ -5,11 +5,17 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import java.util.List;
 
 public class TrainingScheduleProvider extends ContentProvider {
+
+    TrainingScheduleDataBase db;
+    Cursor cursor;
+
     public TrainingScheduleProvider() {
     }
 
@@ -22,31 +28,19 @@ public class TrainingScheduleProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        String[] columnNames;
-        MatrixCursor cursor;
-        switch(TrainingScheduleContract.URI_MATCHER.match(uri)) {
-            case TrainingScheduleContract.EXERCISE_LIST:
-                columnNames = new String[] { "_id", "type", "name", "difficulty" };
-                cursor = new MatrixCursor(columnNames);
-                cursor.addRow(new Object[]{0, 3, "Exercise 3", 2});
-                cursor.addRow(new Object[]{1, 14, "Exercise 14", 2});
-                cursor.addRow(new Object[]{2, 21, "Exercise 21", 5});
-                cursor.addRow(new Object[]{3, 21, "Exercise 28", 3});
-                cursor.addRow(new Object[]{4, 39, "Exercise 39", 7});
-                cursor.addRow(new Object[]{5, 41, "Exercise 41", 7});
-                cursor.addRow(new Object[]{6, 44, "Exercise 44", 4});
-                cursor.addRow(new Object[]{7, 45, "Exercise 45", 8});
+
+       switch(TrainingScheduleContract.URI_MATCHER.match(uri)) {
+           case TrainingScheduleContract.EXERCISE_LIST:
+               cursor = db.getReadableDatabase().rawQuery("SELECT * FROM exercises", null);
 
                 return cursor;
-            case TrainingScheduleContract.EXERCISE_TOOL_LIST:
+
+           case TrainingScheduleContract.EXERCISE_TOOL_LIST:
+
                 List<String> pathSegments = uri.getPathSegments();
-                int exercise = Integer.valueOf(pathSegments.get(pathSegments.size() - 2));
-                columnNames = new String[] { "tool" };
-                cursor = new MatrixCursor(columnNames);
-                Object[][][]tools = new Object[][][] {{{1}}, {{1}}, {{1}}, {{1}}, {{4}}, {{3}}, {{2}, {4}}, {{2}, {3}}};
-                for(Object[] row : tools[exercise]) {
-                    cursor.addRow(row);
-                }
+                int exerciseId = Integer.valueOf(pathSegments.get(pathSegments.size() - 2));
+                cursor = db.getReadableDatabase().rawQuery("SELECT tool FROM tools WHERE exercise_id = " + exerciseId, null);
+               cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
                 return cursor;
             default:
@@ -82,6 +76,7 @@ public class TrainingScheduleProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         // TODO: Implement this to initialize your content provider on startup.
+        db = new TrainingScheduleDataBase((this.getContext()));
         return false;
     }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grey">#ffdddddd</color>
+    <color name="tool_blue">#ff0265aa</color>
+    <color name="pose_blue">#ff9ad5ff</color>
+    <color name="titlebackgroundcolor">#FF0265AA</color>
+    <color name="titletextcolor">#FFFFFFFF</color>
+</resources>

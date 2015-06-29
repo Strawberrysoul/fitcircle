@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:debuggable="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name="de.jsauerwein.fitcircle.TrainingSchedule"
@@ -21,7 +22,7 @@
             android:name="de.jsauerwein.fitcircle.TrainingScheduleProvider"
             android:authorities="de.jsauerwein.fitcircle.schedule"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="true" >
         </provider>
 
         <receiver
