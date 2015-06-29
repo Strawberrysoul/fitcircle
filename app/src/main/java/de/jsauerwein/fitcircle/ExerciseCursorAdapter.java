@@ -97,11 +97,12 @@ public class ExerciseCursorAdapter extends CursorAdapter {
         String name = cursor.getString(cursor.getColumnIndex("name"));
         int difficulty = cursor.getInt(cursor.getColumnIndex("difficulty"));
 
-        // first, no tools should be visible
+        //first, no tools should be visible
         viewHolder.toolViewBall.setVisibility(View.GONE);
+        viewHolder.toolViewMat.setVisibility(View.GONE);//
         viewHolder.toolViewChair.setVisibility(View.GONE);
         viewHolder.toolViewExpander.setVisibility(View.GONE);
-        viewHolder.toolViewMat.setVisibility(View.GONE);
+
 
         // set all Views:
         viewHolder.poseView.setImageResource(this.exerciseIcons[pose- 1]);
@@ -109,7 +110,7 @@ public class ExerciseCursorAdapter extends CursorAdapter {
         viewHolder.difficultyView.setText(""+difficulty);
         Log.i(null,"hallo");
         ContentResolver cr = context.getContentResolver();
-        Cursor toolCursor = cr.query(Uri.parse("content://de.jsauerwein.fitcircle.schedule/exercises/" + cursor.getString(cursor.getColumnIndex("_id")) + "/tools"), null, null, null, null);
+        Cursor toolCursor = cr.query(Uri.parse("content://de.jsauerwein.fitcircle.schedule/exercises/" + cursor.getString(cursor.getColumnIndex("_id")) + "/tool"), null, null, null, null);
 
         for (int i = 0; i < toolCursor.getCount(); i++) {
 
