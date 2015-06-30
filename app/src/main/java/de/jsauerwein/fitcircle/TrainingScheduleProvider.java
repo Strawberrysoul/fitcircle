@@ -21,8 +21,18 @@ public class TrainingScheduleProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO: Implement this to handle requests to insert a new row.
-        throw new UnsupportedOperationException("Not yet implemented");
+        long id = 0;
+        switch(TrainingScheduleContract.URI_MATCHER.match(uri)) {
+            case TrainingScheduleContract.EXERCISE_LIST:
+                id = db.getWritableDatabase().insert("exercises", null, values);
+                break;
+            case TrainingScheduleContract.EXERCISE_TOOL_LIST:
+                id = db.getWritableDatabase().insert("tools", null, values);
+                break;
+        }
+        getContext().getContentResolver().notifyChange(uri,null);
+        return Uri.parse(uri + "/" + id);
+
     }
 
     @Override

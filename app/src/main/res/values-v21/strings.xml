@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name_exercise">Name der neuen Übung</string>
+    <string name="pose_number">Pose number</string>
+    <string name="name_exercise2">Exercise name</string>
+    <string name="difficulty_number">Difficulty</string>
+    <string name="add_topic">Add a new exercise</string>
+    <string name="tool_ball">Ball</string>
+    <string name="button_Add">Add exercise</string>
+</resources>

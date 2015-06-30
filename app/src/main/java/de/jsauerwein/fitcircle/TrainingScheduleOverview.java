@@ -70,8 +70,6 @@ public class TrainingScheduleOverview extends Fragment implements LoaderManager.
         // Prepare the loader.  Either re-connect with an existing one,
         // or start a new one.
         getLoaderManager().initLoader(0, null, this);
-
-        exerciseList.setAdapter(new ExerciseAdapter(this.getActivity(), exercises));
     }
 
     @Override

@@ -5,9 +5,145 @@
     tools:context="de.jsauerwein.fitcircle.AddExercise">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/grey">
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_topic"
+            android:autoText="false"
+            android:textColor="@color/titlebackgroundcolor"
+            android:textIsSelectable="false"
+            android:textStyle="normal"
+            android:textSize="12pt"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right|top" />
+
+        <EditText android:id="@+id/edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/name_exercise2"
+            android:focusable="true"
+            android:textStyle="normal"
+            android:textSize="10pt"
+            android:editable="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/nameText"
+            android:textColor="@color/titlebackgroundcolor" />
+
+        <EditText android:id="@+id/edit_pose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/pose_number"
+            android:focusable="true"
+            android:textStyle="normal"
+            android:textSize="10pt"
+            android:editable="true"
+            android:layout_gravity="center_horizontal|top"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/edit_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/titlebackgroundcolor"
+        />
+        <EditText android:id="@+id/edit_difficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/difficulty_number"
+            android:focusable="true"
+            android:textStyle="normal"
+            android:textSize="10pt"
+            android:editable="true"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_below="@+id/edit_pose"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/titlebackgroundcolor" />
+
+        <TextView
+            android:id="@+id/toolText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tool_text"
+            android:autoText="false"
+            android:textColor="@color/titlebackgroundcolor"
+            android:textIsSelectable="false"
+            android:textStyle="normal"
+            android:textSize="11pt"
+            android:layout_below="@+id/edit_difficulty"
+           />
+
+        <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tool_ball"
+        android:id="@+id/checkBoxBall"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="true"
+            android:layout_below="@+id/toolText"
+        android:textColor="@color/titlebackgroundcolor"
+        android:textSize="11pt" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tool_chair"
+            android:id="@+id/checkBoxChair"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:singleLine="true"
+            android:textColor="@color/titlebackgroundcolor"
+            android:layout_below="@+id/checkBoxBall"
+            android:textSize="11pt" />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tool_expander"
+            android:id="@+id/checkBoxExpander"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:singleLine="true"
+            android:textColor="@color/titlebackgroundcolor"
+            android:layout_below="@+id/checkBoxChair"
+            android:textSize="11pt" />
+        <CheckBox
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/checkBoxMat"
+            android:text="@string/tool_mat"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:singleLine="true"
+            android:textColor="@color/titlebackgroundcolor"
+            android:layout_below="@+id/checkBoxExpander"
+            android:textSize="11pt" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add"
+            android:id="@+id/button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/titlebackgroundcolor"
+            android:hint="@string/button_Add"
+            android:textColor="@color/titletextcolor"
+            android:textSize="12pt" />
+
+    </RelativeLayout>
+
 
 </FrameLayout>
